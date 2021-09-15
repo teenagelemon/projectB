@@ -1,7 +1,7 @@
 import socket
 import DiffieHellman
 import pickle
-import encryptor
+import Encryptor
 
 serverAddressPort   = ("127.0.0.1", 20001)
 bufferSize          = 1024
