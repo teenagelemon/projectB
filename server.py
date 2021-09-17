@@ -37,12 +37,12 @@ def connection_phase(dh_value):
         bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
         message = bytesAddressPair[0]
         address = bytesAddressPair[1]
-        message = Encryptor.aes_decrypt(Encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), message)
+        message = Encryptor.aes_decrypt(Encryptor.intkey_to_aeskey(dh_value), Encryptor.intkey_to_aesiv(dh_value), message)
 
         print("IP-address: {}".format(address))
         print(message)
 
-        UDPServerSocket.sendto(Encryptor.aes_encrypt(Encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), "got it!"), address)
+        UDPServerSocket.sendto(Encryptor.aes_encrypt(Encryptor.intkey_to_aeskey(dh_value), Encryptor.intkey_to_aesiv(dh_value), "got it!"), address)
 
 key = key_exchange()
 connection_phase(key)
