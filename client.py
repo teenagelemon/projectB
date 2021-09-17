@@ -32,9 +32,9 @@ def key_exchange():
 def connection_phase(dh_value):
     while True:
         msgFromClient = input("What do you want to send? (Maximum 16 characters) ", )
-        UDPClientSocket.sendto(encryptor.aes_encrypt(encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), msgFromClient), serverAddressPort)
+        UDPClientSocket.sendto(Encryptor.aes_encrypt(Encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), msgFromClient), serverAddressPort)
         msgFromServer = UDPClientSocket.recvfrom(bufferSize)
-        message = encryptor.aes_decrypt(encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), msgFromServer[0])
+        message = Encryptor.aes_decrypt(Encryptor.intkey_to_aeskey(dh_value), encryptor.intkey_to_aesiv(dh_value), msgFromServer[0])
         print(message)
 
 key = key_exchange()
