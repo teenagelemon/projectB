@@ -5,6 +5,7 @@ import Encryptor
 
 address = ("127.0.0.1", 8080)
 buffer_size          = 1024
+used_MACS = []
 
 # Creates socket for client 
 UDP_client_socket= socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -41,6 +42,12 @@ def start_session(master_key):
       
         # Computes MAC
         MAC = Encryptor.computeMAC(str.encode(msg_from_client), master_key.to_bytes(32, byteorder ='big'))
+       
+        if (MAC in used_MACS):
+            print("Reusing MAC")
+            return
+        
+        used_MACS.append(MAC)
         
         # Encrypts message from client and sends it to the servers
         UDP_client_socket.sendto(Encryptor.encrypt(Encryptor.intkey_to_aeskey(master_key), Encryptor.intkey_to_aesiv(master_key), msg_from_client) + MAC, address)
@@ -53,8 +60,9 @@ def start_session(master_key):
         message = Encryptor.decrypt(Encryptor.intkey_to_aeskey(master_key), Encryptor.intkey_to_aesiv(master_key), msg[:16])
         
         if not Encryptor.verifyMAC (str.encode(message), mac , master_key.to_bytes(32, byteorder ='big')):
-            print ("Bad message ")
-            return        
+            print("Bad message ")
+            return     
+               
         print(message)
 
 key = dh_handshake()

@@ -15,6 +15,8 @@ print("UDP server up and listening.")
 
 # Establishes the key exchange between server and client
 def dh_handshake():
+
+    #TODO maybe save iv to prevent against replay attacks.
     
     # Random int used as the exponent in DH protocol 
     private_key = DiffieHellman.server_key()

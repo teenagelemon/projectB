@@ -34,17 +34,17 @@ def depad(data):
 
 def encrypt(key, iv, msg):
     data = pad(msg)
-    obj = AES.new('This is a key123'.encode("utf8"), AES.MODE_CBC, 'This is an IV456'.encode("utf8"))
+    obj = AES.new(key.encode("utf8"), AES.MODE_CBC, iv.encode("utf8"))
     cipher = obj.encrypt(data)
     return cipher
 
 def decrypt(key, iv, cipher):
-    obj = AES.new('This is a key123'.encode("utf8"), AES.MODE_CBC, 'This is an IV456'.encode("utf8"))
+    obj = AES.new(key.encode("utf8"), AES.MODE_CBC,iv.encode("utf8"))
     cipher = obj.decrypt(cipher)
     message = depad(cipher)
     return message
 
-def computeMAC(message , key):
+def computeMAC(message, key):
     h = hmac.HMAC(key, hashes.SHA256(), backend=default_backend())
     h.update(message) 
     return h.finalize()
