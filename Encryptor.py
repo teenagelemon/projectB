@@ -34,12 +34,12 @@ def depad(data):
 
 def encrypt(key, iv, msg):
     data = pad(msg)
-    obj = AES.new('This is a key123'.encode("utf8"), AES.MODE_CBC, 'This is an IV456'.encode("utf8"))
+    obj = AES.new(key, AES.MODE_CBC, iv)
     cipher = obj.encrypt(data)
     return cipher
 
 def decrypt(key, iv, cipher):
-    obj = AES.new('This is a key123'.encode("utf8"), AES.MODE_CBC, 'This is an IV456'.encode("utf8"))
+    obj = AES.new(key, AES.MODE_CBC, iv)    
     cipher = obj.decrypt(cipher)
     message = depad(cipher)
     return message
